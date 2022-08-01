@@ -1,33 +1,9 @@
 function calculator(string) {
+    const [firstArgument, operation, secondArgument, args] = string.split(' ');
 
-    const [first, operation, second, args] = string.split(" ");
+    if (args) throw new Error();
 
-    if (args) throw Error;
-
-    let flag = 0;
-
-    const newArabicFirst = toArabic(first);
-    const newArabicSecond = toArabic(second);
- 
-    const toOperator = {
-        '+': function (x, y) { return x + y },
-        '-': function (x, y) { return x - y },
-        '*': function (x, y) { return x * y },
-        '/': function (x, y) { return Math.trunc(x / y) }
-    }
-        
-    let result = toOperator[operation](newArabicFirst, newArabicSecond);
-    
-    if (flag === 1) throw Error;
-    if (flag === 2 && result > 0) {
-        result = toRoman(result);
-    }
-    if (flag === 2 && result <= 0) {
-        return '';
-    }
-
-    return result.toString();
-
+    let diffSystemsFlag = 0;
 
     function toArabic(value) {
         const arabic = {
@@ -47,9 +23,10 @@ function calculator(string) {
 
         if (value in arabic) {
             newValue = arabic[value];
-            flag++;
+            diffSystemsFlag++;
         } else {
             newValue = Number(value);
+
             if (newValue <= 0 || newValue > 10) throw Error;
         }
 
@@ -62,10 +39,10 @@ function calculator(string) {
 
     function toRoman(value) {
         const roman = [
-              ['',"I","II","III","IV","V","VI","VII","VIII","IX"],
-              ['',"X","XX","XXX","XL","L","LX","LXX","LXXX","XC"],
-              ['',"C","CC","CCC","CD","D","DC","DCC","DCCC","CM"],
-              ];
+            ['',"I","II","III","IV","V","VI","VII","VIII","IX"],
+            ['',"X","XX","XXX","XL","L","LX","LXX","LXXX","XC"],
+            ['',"C","CC","CCC","CD","D","DC","DCC","DCCC","CM"],
+        ];
 
         const hundreds = roman[2][Math.floor(value / 100 % 10)];
         const dozens = roman[1][Math.floor(value / 10 % 10)];
@@ -75,6 +52,26 @@ function calculator(string) {
 
         return romanValue;
     }
+
+    const toOperator = {
+        '+': function (x, y) { return x + y },
+        '-': function (x, y) { return x - y },
+        '*': function (x, y) { return x * y },
+        '/': function (x, y) { return Math.trunc(x / y) }
+    }
+
+
+    const arabicFirst = toArabic(firstArgument);
+    const arabicSecond = toArabic(secondArgument);
+         
+    let result = toOperator[operation](arabicFirst, arabicSecond);
+    
+    if (diffSystemsFlag === 1) throw Error;
+    else if (diffSystemsFlag === 2 && result > 0) result = toRoman(result);
+    else if (diffSystemsFlag === 2 && result <= 0) return '';
+
+    return result.toString();
+
 }
 
 module.exports = calculator;
