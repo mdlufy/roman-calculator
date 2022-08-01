@@ -1,8 +1,8 @@
 {
-    "name": "GoodPracticalProgrammingmacro",
+    "name": "roman-calculator",
     "version": "1.0.0",
     "description": "",
-    "main": "index.js",
+    "main": "calculator.js",
     "scripts": {
       "test": "jest"
     },

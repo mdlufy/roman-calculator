@@ -15,11 +15,9 @@ function calculator(string) {
         '*': function (x, y) { return x * y },
         '/': function (x, y) { return Math.trunc(x / y) }
     }
-
         
     let result = toOperator[operation](newArabicFirst, newArabicSecond);
     
-
     if (flag === 1) throw Error;
     if (flag === 2 && result > 0) {
         result = toRoman(result);
